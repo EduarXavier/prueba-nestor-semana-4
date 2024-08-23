@@ -1,0 +1,23 @@
+services:
+  web:
+    image: img_app_s4:latest
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+    deploy:
+      placement:
+        constraints: [node.labels.app == api]
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    deploy:
+      placement:
+        constraints: [node.labels.app == database]
+
+volumes:
+  mongo_data:
